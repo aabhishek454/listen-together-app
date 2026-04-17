@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+  background-color: #0f172a;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  color: #f1f5f9;
+  background: radial-gradient(circle at top right, #2d1b4e, #0f172a, #1a1025);
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glow-pink {
+  box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes heart-beat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  70% { transform: scale(1); }
+}
+
+.animate-heart {
+  animation: heart-beat 1.5s infinite ease-in-out;
+}
+
+@keyframes float-up {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+.floating-heart {
+  position: absolute;
+  color: #ff4d6d;
+  animation: float-up 10s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 77, 109, 0.6));
+}
