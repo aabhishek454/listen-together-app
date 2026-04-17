@@ -22,10 +22,15 @@ const Player = ({ videoId, isPlaying, currentTime, emitEvent, user, volume }) =>
         if (typeof player.pauseVideo === 'function') player.pauseVideo();
       }
 
-      // Time sync (drift check)
+      // Time sync (drift check with expected time calculation)
       const playerTime = player.getCurrentTime();
-      if (Math.abs(playerTime - currentTime) > 3) {
-        if (typeof player.seekTo === 'function') player.seekTo(currentTime, true);
+      // Calculate where the video SHOULD be based on when the server state was last updated
+      const timePassedSinceUpdate = (Date.now() - (localLastUpdated || Date.now())) / 1000;
+      const expectedTime = isPlaying ? currentTime + timePassedSinceUpdate : currentTime;
+
+      // Only seek if we are more than 2 seconds off to avoid jitter
+      if (Math.abs(playerTime - expectedTime) > 2) {
+        if (typeof player.seekTo === 'function') player.seekTo(expectedTime, true);
       }
 
       // Volume sync
@@ -35,7 +40,7 @@ const Player = ({ videoId, isPlaying, currentTime, emitEvent, user, volume }) =>
     } catch (e) {
       console.error('Playback sync error:', e);
     }
-  }, [videoId, isPlaying, currentTime, isReady, volume]);
+  }, [videoId, isPlaying, currentTime, isReady, volume, localLastUpdated]);
 
   const onReady = (event) => {
     playerRef.current = event.target;

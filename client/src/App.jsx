@@ -13,7 +13,8 @@ function App() {
     currentTime: 0,
     volume: 50,
     queue: [],
-    messages: []
+    messages: [],
+    localLastUpdated: Date.now()
   });
   const socketRef = useRef();
 
@@ -26,15 +27,15 @@ function App() {
     });
 
     socketRef.current.on('initialState', (initialState) => {
-      setState(initialState);
+      setState({ ...initialState, localLastUpdated: Date.now() });
     });
 
     socketRef.current.on('videoChanged', (newState) => {
-      setState(prev => ({ ...prev, ...newState }));
+      setState(prev => ({ ...prev, ...newState, localLastUpdated: Date.now() }));
     });
 
     socketRef.current.on('playerStateChange', (newState) => {
-      setState(prev => ({ ...prev, ...newState }));
+      setState(prev => ({ ...prev, ...newState, localLastUpdated: Date.now() }));
     });
 
     socketRef.current.on('volumeAction', ({ volume }) => {

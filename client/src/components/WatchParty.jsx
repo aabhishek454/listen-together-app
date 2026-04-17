@@ -68,6 +68,7 @@ const WatchParty = ({ user, state, emitEvent }) => {
                 videoId={state.currentVideoId} 
                 isPlaying={state.isPlaying} 
                 currentTime={state.currentTime}
+                localLastUpdated={state.localLastUpdated}
                 volume={state.volume}
                 emitEvent={emitEvent}
                 user={user}
@@ -106,8 +107,8 @@ const WatchParty = ({ user, state, emitEvent }) => {
           </div>
         </div>
 
-        {/* Right Column: Chat */}
-        <aside className="hidden lg:flex w-80 flex-col border-l border-white/5 bg-slate-900/40 backdrop-blur-xl">
+        {/* Right Column: Chat (Stacks below on mobile, sidebar on desktop) */}
+        <aside className="w-full lg:w-80 flex flex-col border-t lg:border-t-0 lg:border-l border-white/5 bg-slate-900/40 backdrop-blur-xl h-[400px] lg:h-auto">
           <Chat 
             messages={state.messages} 
             emitEvent={emitEvent} 
